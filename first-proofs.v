@@ -717,7 +717,7 @@ elim m.
   simpl.
   exact (eq_refl (S (m' + S n'))).
 Show Proof.
-
+Qed.
 
 
 (*
