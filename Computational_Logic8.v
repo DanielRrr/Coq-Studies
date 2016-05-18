@@ -491,3 +491,121 @@ Qed.
 rewrite -> snoc_app.
 reflexivity.
 Qed.
+
+
+Lemma nonzeros_app : forall l1 l2 : natlist, nonzeros (l1 ++ l2) = (nonzeros l1) ++ (nonzeros l2).
+Proof.
+intros l1 l2.
+induction l1.
+simpl.
+reflexivity.
+simpl.
+rewrite -> IHl1.
+destruct n.
+reflexivity.
+simpl.
+reflexivity.
+Qed.
+
+
+Fixpoint beq_natlist (l1 l2 : natlist) : bool :=
+match l1 with
+| nil => match l2 with
+| nil => true
+| _ => false
+end
+| v1 :: r1 => match l2 with
+| nil => false
+| v2 :: r2 => if beq_nat v1 v2 then beq_natlist r1 r2
+else false
+end
+end.
+
+
+Example test_beq_natlist1 : (beq_natlist nil nil = true).
+Proof.
+simpl.
+reflexivity.
+Qed.
+
+Example test_beq_natlist2 : beq_natlist [1;2;3] [1;2;3] = true.
+Proof.
+simpl.
+reflexivity.
+Qed.
+
+
+Theorem beq_nat_refl : forall n : nat, true = beq_nat n n.
+Proof.
+intros n.
+induction n.
+simpl.
+reflexivity.
+rewrite IHn.
+reflexivity.
+Qed.
+
+Theorem beq_natlist_refl : forall l:natlist, true = beq_natlist l l.
+Proof.
+intros l.
+induction l.
+reflexivity.
+simpl.
+rewrite <- beq_nat_refl.
+rewrite IHl.
+reflexivity.
+Qed.
+
+
+Theorem count_member_nonzero : forall (s : bag), ble_nat 1 (count 1 (1 :: s)) = true.
+Proof.
+intros.
+induction s.
+simpl.
+reflexivity.
+reflexivity.
+Qed.
+
+
+Theorem ble_n_Sn : forall n, ble_nat n (S n) = true.
+Proof.
+intros.
+induction n.
+simpl.
+reflexivity.
+simpl.
+rewrite IHn.
+reflexivity.
+Qed.
+
+
+Theorem remove_decreases_count: forall (s : bag), ble_nat (count 0 (remove_one 0 s)) (count 0 s) = true.
+Proof.
+intros.
+induction s.
+simpl.
+reflexivity.
+simpl.
+destruct n.
+rewrite -> ble_n_Sn.
+reflexivity.
+simpl.
+rewrite IHs.
+reflexivity.
+Qed.
+
+
+Theorem rev_injective : forall (l1 l2 : natlist), rev l1 = rev l2 -> l1 = l2.
+Proof.
+Lemma rev_fun : forall (l1 l2 : natlist), l1 = l2 -> rev l1 = rev l2.
+Proof.
+intros.
+rewrite -> H.
+reflexivity.
+Qed.
+intros.
+rewrite <- rev_involutive with (l := l1).
+rewrite <- rev_involutive with (l := l2).
+apply rev_fun.
+apply H.
+Qed.
