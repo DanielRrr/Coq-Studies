@@ -113,3 +113,13 @@ right.
 exists x.
 auto.
 Qed.
+
+Theorem Kripke_this_charming_man : forall phi psi, |= ([] (phi --> psi)) --> [] phi --> [] psi.
+Proof.
+intros.
+do 5 intro.
+apply H.
+apply H1.
+trivial.
+auto.
+Qed.
