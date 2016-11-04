@@ -123,3 +123,37 @@ apply H1.
 trivial.
 auto.
 Qed.
+
+Theorem fst : (forall w, R w w) <-> forall phi, |= [] phi --> phi.
+Proof.
+intros.
+split.
+repeat intro.
+auto.
+repeat intro.
+apply H.
+intro.
+intro.
+unfold holds_in.
+apply H0.
+Qed.
+
+Theorem snd : (forall w1 w2 w3, R w1 w2 -> R w2 w3 -> R w1 w3) <-> forall phi, |= [] phi --> [] [] phi.
+Proof.
+intros.
+split.
+repeat intro.
+apply H0.
+apply H with w'.
+apply H1.
+apply H2.
+intros.
+unfold Box in H.
+unfold Imply in H.
+unfold holds_in in H.
+apply H with w1 w2.
+intro w'.
+auto.
+apply H0.
+apply H1.
+Qed.
