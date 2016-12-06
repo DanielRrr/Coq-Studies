@@ -157,3 +157,72 @@ auto.
 apply H0.
 apply H1.
 Qed.
+
+Theorem trd : forall phi psi, |= [] (phi --> psi) --> [] phi --> [] psi.
+Proof.
+repeat intro.
+apply H.
+apply H1.
+apply H0.
+apply H1.
+Qed.
+
+Theorem frth : forall phi1 phi2 phi3, |= [] ((phi1 --> phi2) --> ((phi2 --> phi3) --> (phi1 --> phi3))) -->([] phi1 --> [] phi2) --> (([] phi2 --> [] phi3) --> ([] phi1 --> [] phi3)).
+Proof.
+repeat intro.
+apply H1.
+apply H0.
+apply H2.
+apply H3.
+Qed.
+
+Theorem fifth : forall phi psi, |= [] (phi && psi) --> [] phi.
+Proof.
+repeat intro.
+apply H.
+apply H0.
+Qed.
+
+Theorem sixth : forall phi psi, |= [] phi --> ([] psi --> ([] phi && [] psi)).
+Proof.
+repeat intro.
+split.
+apply H.
+apply H0.
+Qed.
+
+Theorem seventh : forall phi psi, |= [] (phi && psi) --> [] psi.
+Proof.
+repeat intro.
+apply H.
+apply H0.
+Qed.
+
+Theorem eight : forall phi psi, |= ([] phi && [] psi) --> [] (phi && psi).
+Proof.
+repeat intro.
+split.
+apply H; apply H0.
+apply H; apply H0.
+Qed.
+
+
+Theorem ninth : forall phi psi, |= [] (phi && psi) --> [] (psi && phi).
+Proof.
+repeat intro.
+split.
+apply H; apply H0.
+apply H; apply H0.
+Qed.
+
+Theorem tenth : forall phi psi tau, |= ([] tau --> [] phi) --> ([] tau --> [] psi) --> ([] tau --> [] (phi && psi)).
+Proof.
+repeat intro.
+split.
+apply H.
+apply H1.
+apply H2.
+apply H0.
+apply H1.
+apply H2.
+Qed.
