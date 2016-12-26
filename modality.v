@@ -226,3 +226,32 @@ apply H0.
 apply H1.
 apply H2.
 Qed.
+
+Theorem eleven : forall a b c, |= (a --> b --> c) --> (a --> b) --> (a --> c).
+Proof.
+repeat intro.
+apply H.
+apply H1.
+apply H0.
+apply H1.
+Qed.
+
+Theorem k_comb : forall a b, |= a --> b --> a.
+Proof.
+repeat intro.
+apply H.
+Qed.
+
+Theorem brower : forall a, |= (! ! ! a) --> (! a).
+Proof.
+repeat intro.
+apply H.
+Lemma brower_1 : forall a, |= a --> (! ! a).
+Proof.
+repeat intro.
+apply H0.
+apply H.
+Qed.
+apply brower_1.
+apply H0.
+Qed.
