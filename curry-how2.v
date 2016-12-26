@@ -1,3 +1,5 @@
+Require Import Classical.
+
 Theorem id: forall A : Prop, A -> A.
 Proof.
 intros.
@@ -33,6 +35,29 @@ intros.
 apply H.
 apply H0.
 apply H1.
+Qed.
+
+Theorem excluded_middle : forall A : Prop, (~~ A) -> A.
+Proof. 
+tauto.
+Qed.
+
+Theorem distr_next : forall A B C D : Prop, (A -> C) /\ (B -> D) -> A /\ B -> C /\ D.
+Proof.
+intros.
+split.
+apply H.
+apply H0.
+apply H.
+apply H0.
+Qed.
+
+Theorem neg_property : forall A : Prop, A -> ~~A.
+Proof.
+intros.
+intro H0.
+apply H0.
+apply H.
 Qed.
 
 Theorem split : forall A B C : Prop, (A -> B -> C) -> (B -> A -> C).
@@ -186,6 +211,16 @@ apply disj_assoc.
 apply disj_assoc1.
 Qed.
 
+Theorem monotone : forall A B C : Prop,  (A -> B) -> ((A /\ C) -> (B /\ C)).
+Proof.
+intros.
+split.
+apply H.
+apply H0.
+apply H0.
+Qed.
+
+
 Theorem first_order1: forall (X:Type) (P Q : X -> Prop), (forall x : X, P x /\ Q x) -> (forall x : X, P x) /\ (forall x : X, P x).
 Proof.
 intros.
@@ -234,4 +269,44 @@ inversion H0.
 exists witness.
 right.
 apply H1.
+Qed.
+
+Theorem first_order_2 : forall (X: Type) (p q : X -> Prop), (exists x, p x /\ q x) -> exists x, p x.
+Proof.
+intros.
+destruct H as [x B].
+destruct B as [C _].
+exists x.
+apply C.
+Qed.
+
+Theorem first_order_3 : forall (P Q : Type -> Prop) (A : Type), P A -> (forall x : Type, P x -> Q x) -> Q A.
+Proof.
+intros.
+apply H0.
+apply H.
+Qed.
+
+Theorem ex7 : forall (a b : Type) (p : Type -> Prop), p a \/ p b -> exists x : Type, p x.
+Proof.
+intros.
+elim H.
+exists a.
+apply H0.
+exists b.
+apply H0.
+Qed.
+
+Theorem ex8: forall (A : Set) (R : A -> A -> Prop), (forall x y z : A, R x y /\ R y z -> R x z) ->
+(forall x y : A, R x y -> R y x) ->
+forall x : A, (exists y : A, R x y) -> R x x.
+Proof.
+intros A R Trans Sym a h.
+elim h.
+intros b H.
+apply Trans with b.
+split.
+apply H.
+apply Sym.
+assumption.
 Qed.
