@@ -255,3 +255,10 @@ Qed.
 apply brower_1.
 apply H0.
 Qed.
+
+Lemma diamond_lemma : forall a b, |= <> a --> (<> a || <> b).
+Proof.
+repeat intro.
+left.
+apply H.
+Qed.
